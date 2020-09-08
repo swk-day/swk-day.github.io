@@ -1,87 +1,96 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"
-    />
-    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
-    <script>
-      AFRAME.registerComponent("animate-png", {
-        init: function() {
-          // load the .pngs
-          let loader = new THREE.TextureLoader();
-          this.pngArray = [];
 
-          let imageInd = 0;
-          const frameNum = 202;
-          const imageHeader = "lly";
-          while (imageInd < frameNum) {
-            
-            temp = ('000'+imageInd).slice(-3);
-            
-            url = "/assets/" + imageHeader + "_" + temp + ".png";
-            this.pngArray.push(
-              loader.load(
-                (src = url
-                )
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+  <script>
+    AFRAME.registerComponent("animate-png", {
+      init: function () {
+        // load the .pngs
+        let loader = new THREE.TextureLoader();
+        this.pngArray = [];
+
+        let imageInd = 0;
+        const frameNum = 202;
+        const imageHeader = "lly";
+        while (imageInd < frameNum) {
+
+          temp = ('000' + imageInd).slice(-3);
+
+          url = "/assets/" + imageHeader + "_" + temp + ".png";
+          this.pngArray.push(
+            loader.load(
+              (src = url
               )
-            );
-            
-            imageInd+= 2;
-          }
+            )
+          );
 
-          this.el.addEventListener("loaded", e => {
-            let mesh = this.el.getObject3D("mesh");
-            this.material = mesh.material;
-            this.material.alphaTest = 0.5;
-
-            var i = 0;
-            this.id = setInterval(e => {
-              if (i >= this.pngArray.length) i = 0;
-              this.material.map = this.pngArray[i++];
-              this.material.needsUpdate = true;
-            }, 60);
-          });
-        },
-        remove: function() {
-          clearInterval(this.id);
-          // free the memory
-          for (let i = 0; i < this.pngArray.length; i++) {
-            this.pngArray[i].dispose();
-          }
+          imageInd += 2;
         }
-      });
-    </script>
-  </head>
-  <body>
-    <a-scene background="color: white">
-      <!-- assets -->
-      <a-assets>
-        <img src="/assets/lly_bg.png" id="bg">
-      </a-assets>
 
-      <a-entity light="type: ambient; color: #f2dcb6; castShadow: true" position="0 0 -3">
+        this.el.addEventListener("loaded", e => {
+          let mesh = this.el.getObject3D("mesh");
+          this.material = mesh.material;
+          this.material.alphaTest = 0.5;
 
-        <a-plane
-          position="0 1.5/3 -3/3"
-          material="src:#bg; opacity:1; transparent:true"
-          height=7/3
-          width=5/3
-        >
-        </a-plane>
-        <a-plane
-          position="0 1/3 -2/3"
-          height=7/3
-          width=5/3
-          animate-png
+          var i = 0;
+          this.id = setInterval(e => {
+            if (i >= this.pngArray.length) i = 0;
+            this.material.map = this.pngArray[i++];
+            this.material.needsUpdate = true;
+          }, 60);
+        });
+      },
+      remove: function () {
+        clearInterval(this.id);
+        // free the memory
+        for (let i = 0; i < this.pngArray.length; i++) {
+          this.pngArray[i].dispose();
+        }
+      }
+    });
+  </script>
+</head>
+<!-- style for the loader -->
+<style>
+  .arjs-loader {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-        ></a-plane>
-      </a-entity>
+  .arjs-loader div {
+    text-align: center;
+    font-size: 1.25em;
+    color: white;
+  }
+</style>
 
-    </a-scene>
-  </body>
+<body style="margin : 0px; overflow: hidden;">
+  <a-scene background="color: white">
+    <!-- assets -->
+    <a-assets>
+      <img src="/assets/lly_bg.png" id="bg">
+    </a-assets>
+
+    <a-entity light="type: ambient; color: #f2dcb6; castShadow: true" position="0 0 -3">
+
+      <a-plane position="0 1.5/3 -5" material="src:#bg; opacity:1; transparent:true" height=7/3 width=5/3>
+      </a-plane>
+      <a-plane position="0 1/3 -4" height=7/3 width=5/3 animate-png></a-plane>
+    </a-entity>
+
+  </a-scene>
+</body>
+
 </html>
-
