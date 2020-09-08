@@ -28,7 +28,7 @@
             )
           );
 
-          imageInd += 2;
+          imageInd += 4;
         }
 
         this.el.addEventListener("loaded", e => {
@@ -41,7 +41,7 @@
             if (i >= this.pngArray.length) i = 0;
             this.material.map = this.pngArray[i++];
             this.material.needsUpdate = true;
-          }, 60);
+          }, 75);
         });
       },
       remove: function () {
