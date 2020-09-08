@@ -16,7 +16,7 @@
           this.pngArray = [];
 
           let imageInd = 0;
-          const frameNum = 4;
+          const frameNum = 202;
           const imageHeader = "lly";
           while (imageInd < frameNum) {
             
@@ -42,7 +42,7 @@
               if (i >= this.pngArray.length) i = 0;
               this.material.map = this.pngArray[i++];
               this.material.needsUpdate = true;
-            }, 500);
+            }, 50);
           });
         },
         remove: function() {
