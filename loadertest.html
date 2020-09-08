@@ -30,7 +30,7 @@
               )
             );
             
-            imageInd++;
+            imageInd+= 2;
           }
 
           this.el.addEventListener("loaded", e => {
@@ -43,7 +43,7 @@
               if (i >= this.pngArray.length) i = 0;
               this.material.map = this.pngArray[i++];
               this.material.needsUpdate = true;
-            }, 45);
+            }, 60);
           });
         },
         remove: function() {
@@ -66,16 +66,16 @@
       <a-entity light="type: ambient; color: #f2dcb6; castShadow: true" position="0 0 -3">
 
         <a-plane
-          position="0 1.5 -3"
+          position="0 1.5/3 -3/3"
           material="src:#bg; opacity:1; transparent:true"
-          height=7
-          width=5
+          height=7/3
+          width=5/3
         >
         </a-plane>
         <a-plane
-          position="0 1 -2"
-          height=7
-          width=5
+          position="0 1/3 -2/3"
+          height=7/3
+          width=5/3
           animate-png
 
         ></a-plane>
