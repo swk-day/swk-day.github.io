@@ -7,20 +7,20 @@
   <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
   <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
   <script>
-    AFRAME.registerComponent("animate-png", {
+    AFRAME.registerComponent("animate-fg-png", {
       init: function () {
         // load the .pngs
         let loader = new THREE.TextureLoader();
         this.pngArray = [];
 
         let imageInd = 0;
-        const frameNum = 202;
-        const imageHeader = "lly";
+        const frameNum = 89;
+        const imageHeader = "swk";
         while (imageInd < frameNum) {
 
-          temp = ('000' + imageInd).slice(-3);
+          t = ('000' + imageInd).slice(-3);
 
-          url = "/assets/" + imageHeader + "_" + temp + ".png";
+          url = "/assets/" + imageHeader + "_" + t + ".png";
           this.pngArray.push(
             loader.load(
               (src = url
@@ -28,7 +28,7 @@
             )
           );
 
-          imageInd += 5;
+          imageInd += 2;
         }
 
         this.el.addEventListener("loaded", e => {
@@ -88,7 +88,7 @@
 
       <a-plane position="0 1.5 -5" material="src:#bg; opacity:1; transparent:true" height=7 width=5>
       </a-plane>
-      <a-plane position="0 1 -4" height=7 width=5 animate-png></a-plane>
+      <a-plane position="0 1 -4" height=7 width=5 animate-fg-png></a-plane>
       <!-- <a-plane position="0 1 -4" height = 7 width = 5 material="src: #temp; opacity:1; transparent:true" ></a-plane> -->
     </a-entity>
 
