@@ -7,51 +7,55 @@
   <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
   <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
   <script>
-    AFRAME.registerComponent("animate-fg-png", {
-      init: function () {
-        // load the .pngs
-        let loader = new THREE.TextureLoader();
-        this.pngArray = [];
+    function genLoader(loaderName, frameNum, folderHeader, imageHeader, frameSkip, fpsInMs) {
+      AFRAME.registerComponent(loaderName, {
+        init: function () {
+          // load the .pngs
+          let loader = new THREE.TextureLoader();
+          this.pngArray = [];
 
-        let imageInd = 0;
-        const frameNum = 89;
-        const imageHeader = "swk";
-        while (imageInd < frameNum) {
-
-          t = ('000' + imageInd).slice(-3);
-
-          url = "assets/swk/" + imageHeader + "_" + t + ".png";
-          this.pngArray.push(
-            loader.load(
-              (src = url
+          let imageInd = 0;
+          while (imageInd < frameNum) {
+            formattedInd = ('000' + imageInd).slice(-3);
+            url = "assets/" + folderHeader + "/" + imageHeader + "_" + formattedInd + ".png";
+            this.pngArray.push(
+              loader.load(
+                (src = url
+                )
               )
-            )
-          );
+            );
+            imageInd += frameSkip + 1;
+          }
 
-          imageInd += 2;
+          this.el.addEventListener("loaded", e => {
+            let mesh = this.el.getObject3D("mesh");
+            this.material = mesh.material;
+            this.material.alphaTest = 0.5;
+
+            var i = 0;
+            this.id = setInterval(e => {
+              if (i >= this.pngArray.length) i = 0;
+              this.material.map = this.pngArray[i++];
+              this.material.needsUpdate = true;
+            }, fpsInMs);
+          });
+        },
+        remove: function () {
+          clearInterval(this.id);
+          // free the memory
+          for (let i = 0; i < this.pngArray.length; i++) {
+            this.pngArray[i].dispose();
+          }
         }
+      });
 
-        this.el.addEventListener("loaded", e => {
-          let mesh = this.el.getObject3D("mesh");
-          this.material = mesh.material;
-          this.material.alphaTest = 0.5;
+    }
+  </script>
+  <script>
+    
+    genLoader("animate-fg-png", 89, "swk", "swk", 2, 80)
+    genLoader("animate-bg-png", 149, "bg", "bg", 4, 90)
 
-          var i = 0;
-          this.id = setInterval(e => {
-            if (i >= this.pngArray.length) i = 0;
-            this.material.map = this.pngArray[i++];
-            this.material.needsUpdate = true;
-          }, 60);
-        });
-      },
-      remove: function () {
-        clearInterval(this.id);
-        // free the memory
-        for (let i = 0; i < this.pngArray.length; i++) {
-          this.pngArray[i].dispose();
-        }
-      }
-    });
   </script>
 </head>
 <!-- style for the loader -->
@@ -79,16 +83,16 @@
 <body style="margin : 0px; overflow: hidden;">
   <a-scene background="color: white">
     <!-- assets -->
-    <a-assets>
-      <img src="/assets/lly_bg.png" id="bg">
-      
-    </a-assets>
 
     <a-entity light="type: ambient; color: #f2dcb6; castShadow: true" position="0 0 -3">
 
-      <a-plane position="0 1.5 -5" material="src:#bg; opacity:1; transparent:true" height=7 width=5>
+      <!-- <a-plane position="0 1.5 -5" material="src:#bg; opacity:1; transparent:true" height=7 width=5>
+      </a-plane> -->
+      <a-plane position="0 1.5 -5" height=7 width=7.5 animate-bg-png></a-plane>
+
+      <a-plane position="1 1 -4" height=7.5 width=7 animate-fg-png>
+        
       </a-plane>
-      <a-plane position="0 1 -4" height=7.5 width=7 animate-fg-png></a-plane>
       <!-- <a-plane position="0 1 -4" height = 7 width = 5 material="src: #temp; opacity:1; transparent:true" ></a-plane> -->
     </a-entity>
 
