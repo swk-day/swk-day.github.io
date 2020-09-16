@@ -30,6 +30,8 @@
           this.el.addEventListener("loaded", e => {
             let mesh = this.el.getObject3D("mesh");
             this.material = mesh.material;
+            this.material.opacity = 1;
+            this.material.transparent = true;
             this.material.alphaTest = 0.5;
 
             var i = 0;
@@ -52,9 +54,11 @@
     }
   </script>
   <script>
-    
-    genLoader("animate-fg-png", 89, "swk", "swk", 2, 80)
-    genLoader("animate-bg-png", 149, "bg", "bg", 4, 90)
+
+
+    genLoader("animate-bg-png", 150, "wheel", "wheel", 4, 80)
+    // genLoader("animate-clouds-png", 50, "cloud", "cloud", 0, 90)
+    genLoader("animate-fg-png", 180, "swkcloud", "swkcloud", 2, 100)
 
   </script>
 </head>
@@ -84,15 +88,18 @@
   <a-scene background="color: white">
     <!-- assets -->
 
-    <a-entity light="type: ambient; color: #f2dcb6; castShadow: true" position="0 0 -3">
+    <a-entity light="type: ambient; color: #f2dcb6; castShadow: true" position="0 0 -2">
 
       <!-- <a-plane position="0 1.5 -5" material="src:#bg; opacity:1; transparent:true" height=7 width=5>
       </a-plane> -->
-      <a-plane position="0 1.5 -5" height=7 width=7.5 animate-bg-png></a-plane>
 
-      <a-plane position="1 1 -4" height=7.5 width=7 animate-fg-png>
-        
-      </a-plane>
+
+      <a-plane position="0 1.5 -5" height=7.5 width=7.5 animate-bg-png></a-plane>
+
+      <a-plane position="0 2 -4" height=7 width=7 animate-fg-png> </a-plane>
+      <!-- <a-plane position="0 1 -5" height=6 width=6 animate-clouds-png> </a-plane> -->
+
+
       <!-- <a-plane position="0 1 -4" height = 7 width = 5 material="src: #temp; opacity:1; transparent:true" ></a-plane> -->
     </a-entity>
 
