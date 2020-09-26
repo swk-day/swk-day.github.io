@@ -1,6 +1,60 @@
 <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
 <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+<script>
+  function genLoader(loaderName, frameNum, folderHeader, imageHeader, frameSkip, fpsInMs) {
+    AFRAME.registerComponent(loaderName, {
+      init: function () {
+        // load the .pngs
+        let loader = new THREE.TextureLoader();
+        this.pngArray = [];
 
+        let imageInd = 0;
+        while (imageInd < frameNum) {
+          formattedInd = ('000' + imageInd).slice(-3);
+          url = "assets/" + folderHeader + "/" + imageHeader + "_" + formattedInd + ".png";
+          this.pngArray.push(
+            loader.load(
+              (src = url
+              )
+            )
+          );
+          imageInd += frameSkip + 1;
+        }
+
+        this.el.addEventListener("loaded", e => {
+          let mesh = this.el.getObject3D("mesh");
+          this.material = mesh.material;
+          this.material.opacity = 1;
+          this.material.transparent = true;
+          this.material.alphaTest = 0.5;
+
+          var i = 0;
+          this.id = setInterval(e => {
+            if (i >= this.pngArray.length) i = 0;
+            this.material.map = this.pngArray[i++];
+            this.material.needsUpdate = true;
+          }, fpsInMs);
+        });
+      },
+      remove: function () {
+        clearInterval(this.id);
+        // free the memory
+        for (let i = 0; i < this.pngArray.length; i++) {
+          this.pngArray[i].dispose();
+        }
+      }
+    });
+
+  }
+</script>
+<script>
+
+
+  genLoader("animate-bg-png", 150, "wheel", "wheel", 4, 80)
+  // genLoader("animate-clouds-png", 50, "cloud", "cloud", 0, 90)
+  genLoader("animate-fg-png", 180, "swkcloud", "swkcloud", 4, 80)
+
+</script>
 <style>
   .arjs-loader {
     height: 100%;
@@ -48,6 +102,8 @@
     >
   
     <a-entity light="type: ambient; color: #f2dcb6; ">
+      <a-plane position="0 0 -0.015" height=0.01 width=0.01 animate-bg-png></a-plane>
+
       <a-plane position="0 0 -0.02" width = 0.01 height = 0.01 material="src: #temp; opacity:1; transparent:true" ></a-plane>
     </a-entity> -->
 
