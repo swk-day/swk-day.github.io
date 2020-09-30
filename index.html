@@ -50,9 +50,9 @@
 <script>
 
 
-  genLoader("animate-bg-png", 150, "wheel", "wheel", 4, 80)
+  genLoader("animate-bg-png", 150, "wheel", "wheel", 5, 80)
   // genLoader("animate-clouds-png", 50, "cloud", "cloud", 0, 90)
-  genLoader("animate-fg-png", 180, "swkcloud", "swkcloud", 4, 80)
+  genLoader("animate-fg-png", 180, "swkcloud", "swkcloud", 2, 60)
 
 </script>
 <style>
@@ -91,14 +91,14 @@
 
   <a-scene
   vr-mode-ui="enabled: false;"
-  renderer='antialias: true; alpha: true; precision: mediump;'
+  renderer='antialias: true; alpha: true; precision: high;'
   embedded arjs='trackingMethod: best; sourceType: webcam; debugUIEnabled: false;'"
   >
     <!-- we use cors proxy to avoid cross-origin problems -->
     <a-nft
       type="nft"
       url="/nft/yuu_edited" 
-      smooth="true" smoothcount="1" smoothtolerance="0.01" smooththreshold="5" size="0.006"
+      smooth="true" smoothcount="2" smoothtolerance="0.01" smooththreshold="5" size="0.006"
     >
   
     <a-entity light="type: ambient; color: #f2dcb6; ">
