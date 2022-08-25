@@ -1,8 +1,8 @@
 ---
 permalink: /index.html
 ---
-Drawn in Procreate and Photoshop
-Animated in Live2d and After Effects
+Drawn in Procreate and Photoshop.<br>
+Animated in Live2d and After Effects.<br>
 Libraries used: [A-Frame WebVR](https://aframe.io/), three.js
 
 **Instructions (Phone use)**
