@@ -3,7 +3,8 @@ permalink: /index.html
 ---
 Drawn in Procreate and Photoshop.<br>
 Animated in Live2d and After Effects.<br>
-Libraries used: [A-Frame WebVR](https://aframe.io/), three.js
+Libraries used: [A-Frame WebVR](https://aframe.io/), three.js <br>
+Used [Carnaux's NFT Marker Creator](https://github.com/Carnaux/NFT-Marker-Creator/blob/master/README.md) to generate a marker used in image detection here.
 
 **Instructions (Phone use)**
 1) open this [site](swk-day.github.io) on phone
